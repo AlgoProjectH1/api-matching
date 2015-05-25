@@ -1,0 +1,17 @@
+notifications:
+  slack: projetgo:jo0oI2zSh4vHUoJzBIgbWIAF#builds
+
+language: node_js
+node_js:
+  - '0.10'
+
+before_install:
+  - npm -g install mocha
+
+script:
+  - cd tests/
+  - mocha *
+
+branches:
+  only:
+    - master
