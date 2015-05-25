@@ -1,0 +1,29 @@
+{
+  "name": "Matching-API",
+  "version": "0.0.1",
+  "description": "Matching API for Swipe",
+  "main": "app.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AlgoProjectH1/api-matching"
+  },
+  "author": "H1 HETIC",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AlgoProjectH1/api-matching/issues"
+  },
+  "homepage": "https://github.com/AlgoProjectH1/api-matching",
+  "dependencies": {
+    "body-parser": "^1.12.4",
+    "colors": "^1.1.0",
+    "express": "^4.12.4",
+    "method-override": "^2.3.3",
+    "sha1": "^1.1.0"
+  }
+}
