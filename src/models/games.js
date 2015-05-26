@@ -9,7 +9,8 @@ var Games = function () {
  */
 Games.prototype.generateID = function () {
     do {
-        var identifier = sha1(Math.random() * 1000).substr(0, 7);
+        var startSub = Math.floor(Math.random() * (40-7));
+        var identifier = sha1(Math.random() * 1000).substr(startSub,  7);
     } while (this.existsGame(identifier));
 
     return identifier;
