@@ -7,7 +7,6 @@ var Search = {};
 Search.normal = function (socket, token) {
     var games = global.clusters.normal.get('public');
     var chosenGame = games.getAvailable();
-    var state = 0;
     var currentUser = new User(token, socket);
 
     if (!chosenGame) {
@@ -18,7 +17,7 @@ Search.normal = function (socket, token) {
 
     // Determine event to send
     if (games.countUsers(chosenGame) === 2) {
-        var adversary = games.getAdversary(chosenGame, token);
+        var adversary = games.getAdversary(chosenGame, currentUser.getToken());
 
         currentUser.getSocket().emit('game:starts', chosenGame);
         adversary.getSocket().emit('game:starts', chosenGame);
@@ -26,7 +25,7 @@ Search.normal = function (socket, token) {
         return;
     }
 
-    currentUser.getSocket().emit('search:waiting');
+    currentUser.getSocket().emit('game:waiting');
 };
 
 /**
