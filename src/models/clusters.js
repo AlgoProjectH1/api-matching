@@ -21,12 +21,30 @@ Clusters.prototype.add = function (clusterName) {
 Clusters.prototype.addTo = function (clusterName, key, value) {
     if (!value) {
         var value = key;
-        key = this.clusters.length;
+        key = this.clusters[clusterName].length;
     }
 
     this.clusters[clusterName][key] = value;
 
-    return this;
+    return key;
+};
+
+
+/**
+ * Get available cluster rows
+ * @param string clusterName
+ */
+Clusters.prototype.getAvailable = function (clusterName) {
+    var clusters = [];
+
+    for (cluster in this.clusters[clusterName]) {
+        var current = this.clusters[clusterName][cluster];
+
+        if (current instanceof Array && current.length < 2)
+            clusters.push(cluster);
+    }
+
+    return clusters;
 };
 
 
