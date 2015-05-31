@@ -1,6 +1,7 @@
 var User = require('../models/user.js');
 var Search = {};
 
+
 /**
  * Search an available Cluster in normal
  */
@@ -13,6 +14,52 @@ Search.normal = function (socket, token) {
         chosenGame = games.add();
     }
 
+    this.startGame(games, chosenGame, currentUser);
+};
+
+
+/**
+ * Search an available Cluster in go+
+ */
+Search.goPlus = function (socket) {
+
+};
+
+
+/**
+ * When an user join a private game
+ */
+Search.join = function (socket, infos) {
+    var game = infos.game;
+    var token = infos.token;
+    var games = global.clusters.normal.get('private');
+    var chosenGame = games.exists(game);
+    var currentUser = new User(token, socket);
+
+    if (!chosenGame) {
+        currentUser.getSocket().emit('search:error', "La partie n'existe pas");
+        return;
+    }
+
+    this.startGame(games, chosenGame, currentUser);
+};
+
+
+/**
+ * When a user disconnect
+ */
+Search.leave = function (socket) {
+
+};
+
+
+/**
+ * Start a game
+ * @param object games
+ * @param string chosenGame
+ * @param object currentUser
+ */
+Search.startGame = function (games, chosenGame, currentUser) {
     games.addUser(chosenGame, currentUser);
 
     // Determine event to send
@@ -26,13 +73,6 @@ Search.normal = function (socket, token) {
     }
 
     currentUser.getSocket().emit('game:waiting');
-};
-
-/**
- * Search an available Cluster in go+
- */
-Search.goPlus = function (req, res) {
-
 };
 
 
