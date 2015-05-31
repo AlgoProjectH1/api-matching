@@ -1,6 +1,7 @@
 var express = require('express');
 var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
+var search = require('./src/controllers/search.js');
 var app = express();
 
 
@@ -11,12 +12,16 @@ app.use(bodyParser());
 
 // Clusters
 var ClustersModel = require('./src/models/clusters.js');
-var globalClusters = new ClustersModel();
+var normalCluster = new ClustersModel();
 
 // Normal mode cluster
-globalClusters.add('normal');
-globalClusters.addTo('normal', 'private', new ClustersModel());
-globalClusters.addTo('normal', 'public',  new ClustersModel());
+normalCluster.add('private');
+normalCluster.add('public');
+app.set('normalCluster', normalCluster);
+
+
+// Routes
+app.post('/normal/search', search.normal);
 
 
 // Launch app
