@@ -69,6 +69,7 @@ Search.leave = function (socket) {
     // Disconnect every players in the game
     for (var user in currentGame.getUsers()) {
         var currentUser = currentGame.getUsers()[user];
+        global.players.delete(currentUser.getSocket().id);
 
         if (currentUser.getSocket().id != socket.id)
             currentUser.getSocket().emit('game:disconnect');

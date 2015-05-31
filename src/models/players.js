@@ -27,4 +27,13 @@ Players.get = function (socketID) {
 };
 
 
+/**
+ * Delete an user
+ * @param string socketID
+ */
+Players.delete = function (socketID) {
+    this.users.slice(socketID);
+};
+
+
 module.exports = Players;
