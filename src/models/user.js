@@ -1,23 +1,23 @@
-var User = function (id, level) {
-    this.id = id;
-    this.level = level;
+var User = function (token, socket) {
+    this.token = token;
+    this.socket = socket;
 };
 
 /**
- * Get the id
+ * Get the token
  * @return int
  */
-User.prototype.getId = function () {
-    return this.id;
+User.prototype.getToken = function () {
+    return this.token;
 }
 
 /**
- * Get the level
- * @return int
+ * Get the socket object
+ * @return object
  */
-User.prototype.getLevel = function () {
-    return this.level;
-}
+User.prototype.getSocket = function () {
+    return this.socket;
+};
 
 
 module.exports = User;
