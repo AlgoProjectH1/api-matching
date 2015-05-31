@@ -23,7 +23,7 @@ global.clusters = {
 /** EVENTS **/
 /************/
 global.events = {
-    search: require('./src/controllers/search.js');
+    search: require('./src/events/search.js')
 };
 
 
@@ -35,6 +35,11 @@ io.on('connection', function (socket) {
     // When a player is looking for a public game
     socket.on('search:normal', function (token) {
         global.events.search.normal(socket, token);
+    });
+
+    // When a player join a private game
+    socket.on('search:join', function (game) {
+        global.events.search.join(socket, game);
     });
 
 });
