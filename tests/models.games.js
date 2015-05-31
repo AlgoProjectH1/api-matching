@@ -8,7 +8,7 @@ describe('Games', function() {
     var games = new Game();
     var gameID = games.add();
 
-    var userInfos = new User(10, 2);
+    var userInfos = new User(10, {});
     games.addUser(gameID, userInfos);
 
     describe('#addUser()', function() {
@@ -19,7 +19,7 @@ describe('Games', function() {
 
     describe('#getUsers()', function() {
         it('should get users from a game', function() {
-            assert.equal(10, games.getUsers(gameID)[0].getId());
+            assert.equal(10, games.getUsers(gameID)[0].getToken());
         })
     })
 })
