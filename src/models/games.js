@@ -87,5 +87,22 @@ Games.prototype.getAvailable = function () {
     return false;
 };
 
+/**
+ * Get adversary
+ * @param string game
+ * @param string token
+ * @return mixed
+ */
+Games.prototype.getAdversary = function (game, token) {
+    for (user in this.games[game].users) {
+        var current = this.games[game].users[user];
+
+        if (current.getToken() != token)
+            return current;
+    }
+
+    return false;
+};
+
 
 module.exports = Games;
