@@ -20,13 +20,11 @@ Clusters.prototype.add = function (clusterName) {
  */
 Clusters.prototype.addTo = function (clusterName, key, value) {
     if (!value) {
-        var value = key;
-        key = this.clusters[clusterName].length;
+        this.clusters[clusterName] = key;
+        return;
     }
 
     this.clusters[clusterName][key] = value;
-
-    return key;
 };
 
 

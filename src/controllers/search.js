@@ -1,34 +1,27 @@
+var User = require('../models/user.js');
 var Search = {};
 
 /**
  * Search an available Cluster in normal
- * /normal/search
  */
-Search.normal = function (req, res) {
-    var user = req.body.user;
-    var cluster = req.app.get('normalCluster');
-    var availableClusters = cluster.getAvailable('public');
-    var chosenCluster = null;
+Search.normal = function (socket, user) {
+    var games = global.clusters.normal.get('public');
+    var chosenGame = games.getAvailable();
 
-    if (availableClusters.length === 0) {
-        chosenCluster = cluster.addTo('public', [user]);
-    } else {
-        chosenCluster = availableClusters[0];
-        var users = cluster.getFrom('public', chosenCluster);
-        users.push(user);
-
-        cluster.addTo('public', chosenCluster, users);
+    if (!chosenGame) {
+        chosenGame = games.add();
     }
 
+    games.addUser(chosenGame, new User(user, 1));
+
     res.send(JSON.stringify({
-        'users': cluster.getFrom('public', chosenCluster),
-        'cluster': chosenCluster
+        users: games.getUsers(chosenGame),
+        game: chosenGame
     }));
 };
 
 /**
  * Search an available Cluster in go+
- * /normal/search
  */
 Search.goPlus = function (req, res) {
 
