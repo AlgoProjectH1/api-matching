@@ -74,5 +74,18 @@ Games.prototype.countUsers = function (id) {
     return this.games[id].users.length;
 };
 
+/**
+ * Get available games
+ * @return mixed
+ */
+Games.prototype.getAvailable = function () {
+    for (id in this.games) {
+        if (this.countUsers(id) < 2)
+            return id;
+    }
+
+    return false;
+};
+
 
 module.exports = Games;

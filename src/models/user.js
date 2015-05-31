@@ -1,16 +1,7 @@
-var User = function (username, id, level) {
-    this.username = username;
+var User = function (id, level) {
     this.id = id;
     this.level = level;
 };
-
-/**
- * Get the username
- * @return string
- */
-User.prototype.getUsername = function () {
-    return this.username;
-}
 
 /**
  * Get the id
