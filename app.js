@@ -1,5 +1,4 @@
 var io = require('socket.io')(8080);
-var search = require('./src/controllers/search.js');
 var ClustersModel = require('./src/models/clusters.js');
 var Games = require('./src/models/games.js');
 
@@ -20,14 +19,22 @@ global.clusters = {
 };
 
 
+/************/
+/** EVENTS **/
+/************/
+global.events = {
+    search: require('./src/controllers/search.js');
+};
+
+
 /***************/
 /** LISTENING **/
 /***************/
 io.on('connection', function (socket) {
 
     // When a player is looking for a public game
-    socket.on('search:normal', function (user) {
-        global.events.search.normal(socket, user);
+    socket.on('search:normal', function (token) {
+        global.events.search.normal(socket, token);
     });
 
 });
