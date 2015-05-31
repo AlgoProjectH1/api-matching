@@ -4,20 +4,29 @@ var Search = {};
 /**
  * Search an available Cluster in normal
  */
-Search.normal = function (socket, user) {
+Search.normal = function (socket, token) {
     var games = global.clusters.normal.get('public');
     var chosenGame = games.getAvailable();
+    var state = 0;
+    var currentUser = new User(token, socket);
 
     if (!chosenGame) {
         chosenGame = games.add();
     }
 
-    games.addUser(chosenGame, new User(user, 1));
+    games.addUser(chosenGame, currentUser);
 
-    res.send(JSON.stringify({
-        users: games.getUsers(chosenGame),
-        game: chosenGame
-    }));
+    // Determine event to send
+    if (games.countUsers(chosenGame) === 2) {
+        var adversary = games.getAdversary(chosenGame, token);
+
+        currentUser.getSocket().emit('game:starts', chosenGame);
+        adversary.getSocket().emit('game:starts', chosenGame);
+
+        return;
+    }
+
+    currentUser.getSocket().emit('search:waiting');
 };
 
 /**
