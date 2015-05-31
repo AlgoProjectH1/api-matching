@@ -19,29 +19,6 @@ Search.normal = function (socket, token) {
 
 
 /**
- * Start a game
- * @param object games
- * @param string chosenGame
- * @param object currentUser
- */
-Search.startGame = function (games, chosenGame, currentUser) {
-    games.addUser(chosenGame, currentUser);
-
-    // Determine event to send
-    if (games.countUsers(chosenGame) === 2) {
-        var adversary = games.getAdversary(chosenGame, currentUser.getToken());
-
-        currentUser.getSocket().emit('game:starts', chosenGame);
-        adversary.getSocket().emit('game:starts', chosenGame);
-
-        return;
-    }
-
-    currentUser.getSocket().emit('game:waiting');
-};
-
-
-/**
  * Search an available Cluster in go+
  */
 Search.goPlus = function (socket) {
@@ -73,6 +50,29 @@ Search.join = function (socket, infos) {
  */
 Search.leave = function (socket) {
 
+};
+
+
+/**
+ * Start a game
+ * @param object games
+ * @param string chosenGame
+ * @param object currentUser
+ */
+Search.startGame = function (games, chosenGame, currentUser) {
+    games.addUser(chosenGame, currentUser);
+
+    // Determine event to send
+    if (games.countUsers(chosenGame) === 2) {
+        var adversary = games.getAdversary(chosenGame, currentUser.getToken());
+
+        currentUser.getSocket().emit('game:starts', chosenGame);
+        adversary.getSocket().emit('game:starts', chosenGame);
+
+        return;
+    }
+
+    currentUser.getSocket().emit('game:waiting');
 };
 
 
