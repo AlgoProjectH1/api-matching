@@ -1,28 +1,33 @@
-var express = require('express');
-var methodOverride = require('method-override');
-var bodyParser = require('body-parser');
+var io = require('socket.io')(8080);
 var search = require('./src/controllers/search.js');
-var app = express();
-
-
-// Config app
-app.use(methodOverride());
-app.use(bodyParser());
-
-
-// Clusters
 var ClustersModel = require('./src/models/clusters.js');
+var Games = require('./src/models/games.js');
+
+
+/**************/
+/** CLUSTERS **/
+/**************/
 var normalCluster = new ClustersModel();
 
 // Normal mode cluster
 normalCluster.add('private');
+normalCluster.addTo('private', new Games());
 normalCluster.add('public');
-app.set('normalCluster', normalCluster);
+normalCluster.addTo('public', new Games());
+
+global.clusters = {
+    normal: normalCluster
+};
 
 
-// Routes
-app.post('/normal/search', search.normal);
+/***************/
+/** LISTENING **/
+/***************/
+io.on('connection', function (socket) {
 
+    // When a player is looking for a public game
+    socket.on('search:normal', function (user) {
+        global.events.search.normal(socket, user);
+    });
 
-// Launch app
-app.listen(1337);
+});
