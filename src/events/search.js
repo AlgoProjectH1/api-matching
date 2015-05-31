@@ -62,7 +62,7 @@ Search.leave = function (socket) {
     }
 
     // Verify if the game exists
-    var currentGame = games.get(userGame.id);
+    var currentGame = games.get(userGame.game);
     if (!currentGame)
         return;
 
