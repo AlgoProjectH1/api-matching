@@ -49,7 +49,30 @@ Search.join = function (socket, infos) {
  * When a user disconnect
  */
 Search.leave = function (socket) {
+    var userGame = global.users.getGameFrom(socket.id);
 
+    if (!userGame)
+        return;
+
+    if (userGame.type === 'private') {
+        var games = global.clusters.normal.get('private');
+    } else {
+        var games = global.clusters.normal.get('public');
+    }
+
+    var currentGame = games.get(userGame.id);
+
+    if (!currentGame)
+        return;
+
+    for (var user in currentGame.getUsers()) {
+        var currentUser = currentGame.getUsers()[user];
+
+        currentUser.getSocket().emit('game:disconnect');
+    }
+
+    // Delete the game
+    games.delete(userGame.id);
 };
 
 

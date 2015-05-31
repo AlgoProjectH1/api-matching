@@ -42,4 +42,9 @@ io.on('connection', function (socket) {
         global.events.search.join(socket, game);
     });
 
+    // When a user leave a game
+    socket.on('disconnect', function () {
+        global.events.search.leave(socket);
+    });
+
 });
