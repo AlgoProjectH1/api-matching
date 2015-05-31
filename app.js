@@ -1,6 +1,7 @@
 var io = require('socket.io')(process.env.PORT || 8080);
 var ClustersModel = require('./src/models/clusters.js');
 var Games = require('./src/models/games.js');
+global.players = require('./src/models/players.js');
 
 
 /**************/

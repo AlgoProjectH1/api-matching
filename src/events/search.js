@@ -14,7 +14,7 @@ Search.normal = function (socket, token) {
         chosenGame = games.add();
     }
 
-    this.startGame(games, chosenGame, currentUser);
+    this.startGame('public', chosenGame, currentUser);
 };
 
 
@@ -41,7 +41,7 @@ Search.join = function (socket, infos) {
         return;
     }
 
-    this.startGame(games, chosenGame, currentUser);
+    this.startGame('private', chosenGame, currentUser);
 };
 
 
@@ -49,26 +49,29 @@ Search.join = function (socket, infos) {
  * When a user disconnect
  */
 Search.leave = function (socket) {
-    var userGame = global.users.getGameFrom(socket.id);
+    var userGame = global.players.get(socket.id);
 
     if (!userGame)
         return;
 
+    // Detect if the user game is private or public
     if (userGame.type === 'private') {
         var games = global.clusters.normal.get('private');
     } else {
         var games = global.clusters.normal.get('public');
     }
 
+    // Verify if the game exists
     var currentGame = games.get(userGame.id);
-
     if (!currentGame)
         return;
 
+    // Disconnect every players in the game
     for (var user in currentGame.getUsers()) {
         var currentUser = currentGame.getUsers()[user];
 
-        currentUser.getSocket().emit('game:disconnect');
+        if (currentUser.getSocket().id != socket.id)
+            currentUser.getSocket().emit('game:disconnect');
     }
 
     // Delete the game
@@ -82,15 +85,22 @@ Search.leave = function (socket) {
  * @param string chosenGame
  * @param object currentUser
  */
-Search.startGame = function (games, chosenGame, currentUser) {
+Search.startGame = function (type, chosenGame, currentUser) {
+    var games = global.clusters.normal.get(type);
+
     games.addUser(chosenGame, currentUser);
 
     // Determine event to send
     if (games.countUsers(chosenGame) === 2) {
         var adversary = games.getAdversary(chosenGame, currentUser.getToken());
 
+        // Notify both players
         currentUser.getSocket().emit('game:starts', chosenGame);
         adversary.getSocket().emit('game:starts', chosenGame);
+
+        // Add both players to playersModel
+        global.players.add(currentUser.getSocket().id, chosenGame, type);
+        global.players.add(adversary.getSocket().id, chosenGame, type);
 
         return;
     }
