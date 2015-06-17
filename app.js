@@ -20,6 +20,16 @@ global.clusters = {
 };
 
 
+/*****************/
+/** CONTROLLERS **/
+/*****************/
+global.controllers = {
+    game: require('./src/controllers/game.js'),
+    intersections: require('./src/controllers/intersections.js'),
+    nodeDetection: require('./src/controllers/nodeDetection.js')
+};
+
+
 /************/
 /** EVENTS **/
 /************/
