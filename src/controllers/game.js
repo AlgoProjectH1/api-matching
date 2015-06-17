@@ -3,7 +3,7 @@
  * Constructor
  * @param int gobanSize
  */
- var Game = function (gobanSize) {
+var Game = function (gobanSize) {
     this.currentPlayer = 1;
     this.gameState = 1;
     this.Intersections = new Intersections(gobanSize);
