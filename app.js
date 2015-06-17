@@ -54,7 +54,7 @@ io.on('connection', function (socket) {
     });
 
 
-    // When a player do a move
+    // When a player make a move
     socket.on('game:move', function (move) {
       global.events.game.move(socket, move);
     });
