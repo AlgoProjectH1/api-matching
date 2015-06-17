@@ -43,6 +43,23 @@ io.on('connection', function (socket) {
         global.events.search.join(socket, game);
     });
 
+
+    // When a player do a move
+    socket.on('game:move', function (move) {
+      global.events.game.move(socket, move);
+    });
+
+    // When a player give up
+    socket.on('game:giveup', function () {
+      global.events.game.giveUp(socket);
+    });
+
+    // When a player skip his turn
+    socket.on('game:skip', fucntion () {
+      global.events.game.skip(socket);
+    });
+
+
     // When a user leave a game
     socket.on('disconnect', function () {
         global.events.search.leave(socket);
