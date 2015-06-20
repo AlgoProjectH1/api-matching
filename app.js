@@ -44,13 +44,13 @@ global.events = {
 io.on('connection', function (socket) {
 
     // When a player is looking for a public game
-    socket.on('search:normal', function (token) {
-        global.events.search.normal(socket, token);
+    socket.on('search:normal', function (infos) {
+        global.events.search.normal(socket, infos);
     });
 
     // When a player join a private game
-    socket.on('search:join', function (game) {
-        global.events.search.join(socket, game);
+    socket.on('search:join', function (infos) {
+        global.events.search.join(socket, infos);
     });
 
 
