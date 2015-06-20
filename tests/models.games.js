@@ -8,7 +8,7 @@ describe('Games', function() {
     var games = new Game();
     var gameID = games.add();
 
-    var userInfos = new User(10, {});
+    var userInfos = new User(10, {}, {username: '', rank: '', picture: ''});
     games.addUser(gameID, userInfos);
 
     describe('#addUser()', function() {
