@@ -12,6 +12,14 @@ script:
   - cd tests/
   - mocha *
 
+deploy:
+  provider: heroku
+  app: api-matching-swipe
+  on: master
+  strategy: git
+  api_key:
+    secure: DlKIimeFTLpdCrp9hAtfTSOyPwPf5ogdjkudfEchwaz8mqiYvVR0iiWkxrPwi291pAvCzEMRsxCuJKtbU9vwAu28pLpS0VijIng2CITJ2vqDlxJffOqSjRMjK3xYyl/jDNmYRCU240GVxLIh5U1hA8GnXDH9npVdvyYsu5VgDPY=
+
 branches:
   only:
     - master

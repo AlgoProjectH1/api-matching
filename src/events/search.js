@@ -63,6 +63,9 @@ Search.leave = function (socket) {
 
     // Verify if the game exists
     var currentGame = games.get(userGame.game);
+
+    console.log('Quitte la partie '+ currentGame);
+
     if (!currentGame)
         return;
 
@@ -96,8 +99,14 @@ Search.startGame = function (type, chosenGame, currentUser) {
         var adversary = games.getAdversary(chosenGame, currentUser.getToken());
 
         // Notify both players
-        currentUser.getSocket().emit('game:starts', chosenGame);
-        adversary.getSocket().emit('game:starts', chosenGame);
+        currentUser.getSocket().emit('search:found', JSON.stringify({
+            gameIdentifier: chosenGame,
+            adversary: adversary.getAll()
+        }));
+        adversary.getSocket().emit('search:found', JSON.stringify({
+            gameIdentifier: chosenGame,
+            adversary: currentUser.getAll()
+        }));
 
         // Add both players to playersModel
         global.players.add(currentUser.getSocket().id, chosenGame, type);
@@ -105,8 +114,6 @@ Search.startGame = function (type, chosenGame, currentUser) {
 
         return;
     }
-
-    currentUser.getSocket().emit('game:waiting');
 };
 
 
