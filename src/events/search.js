@@ -7,7 +7,7 @@ var Search = {};
  */
 Search.normal = function (socket, infos) {
     infos = JSON.parse(infos);
-    
+
     var token = infos.token;
     var games = global.clusters.normal.get('public');
     var chosenGame = games.getAvailable();
@@ -18,14 +18,7 @@ Search.normal = function (socket, infos) {
     }
 
     this.startGame('public', chosenGame, currentUser);
-};
-
-
-/**
- * Search an available Cluster in go+
- */
-Search.goPlus = function (socket) {
-
+    console.log(infos.username +' rejoint la partie '+ chosenGame);
 };
 
 
