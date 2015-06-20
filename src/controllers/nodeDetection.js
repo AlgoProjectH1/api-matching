@@ -140,7 +140,7 @@ NodeDetection.prototype.getNodes = function () {
  */
 NodeDetection.prototype.getNodesFriends = function (stone, nodeIndex) {
     var currentStone = stone;
-    var currentStoneIdentifier = `${currentStone.x}:${currentStone.y}`;
+    var currentStoneIdentifier = currentStone.x +":"+ currentStone.y;
 
     if (this.hasBeenTraversed(currentStoneIdentifier))
         return;
