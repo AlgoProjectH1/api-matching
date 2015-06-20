@@ -65,7 +65,7 @@ io.on('connection', function (socket) {
     });
 
     // When a player skip his turn
-    socket.on('game:skip', fucntion () {
+    socket.on('game:skip', function () {
       global.events.game.skip(socket);
     });
 
