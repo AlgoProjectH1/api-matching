@@ -5,10 +5,13 @@ var Search = {};
 /**
  * Search an available Cluster in normal
  */
-Search.normal = function (socket, token) {
+Search.normal = function (socket, infos) {
+    infos = JSON.parse(infos);
+    
+    var token = infos.token;
     var games = global.clusters.normal.get('public');
     var chosenGame = games.getAvailable();
-    var currentUser = new User(token, socket);
+    var currentUser = new User(token, socket, infos);
 
     if (!chosenGame) {
         chosenGame = games.add();
@@ -30,11 +33,14 @@ Search.goPlus = function (socket) {
  * When an user join a private game
  */
 Search.join = function (socket, infos) {
+    infos = JSON.parse(infos);
+
     var game = infos.game;
-    var token = infos.token;
+    var userInfos = infos.user;
+    var token = userInfos.token;
     var games = global.clusters.normal.get('private');
     var chosenGame = games.exists(game);
-    var currentUser = new User(token, socket);
+    var currentUser = new User(token, socket, userInfos);
 
     if (!chosenGame) {
         currentUser.getSocket().emit('search:error', "La partie n'existe pas");
@@ -50,15 +56,16 @@ Search.join = function (socket, infos) {
  */
 Search.leave = function (socket) {
     var userGame = global.players.get(socket.id);
+    var games = null;
 
     if (!userGame)
         return;
 
     // Detect if the user game is private or public
     if (userGame.type === 'private') {
-        var games = global.clusters.normal.get('private');
+        games = global.clusters.normal.get('private');
     } else {
-        var games = global.clusters.normal.get('public');
+        games = global.clusters.normal.get('public');
     }
 
     // Verify if the game exists
