@@ -101,7 +101,7 @@ Search.startGame = function (type, chosenGame, currentUser) {
         // Notify both players
         currentUser.getSocket().emit('search:found', JSON.stringify({
             gameIdentifier: chosenGame,
-            adversary: adversary.getAll()
+            adversary: {}
         }));
         adversary.getSocket().emit('search:found', JSON.stringify({
             gameIdentifier: chosenGame,
