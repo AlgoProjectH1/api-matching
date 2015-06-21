@@ -15,6 +15,7 @@ Search.normal = function (socket, infos) {
 
     if (!chosenGame) {
         chosenGame = games.add();
+        global.outputs.game(chosenGame, "created");
     }
 
     this.startGame('public', chosenGame, currentUser);
@@ -77,7 +78,7 @@ Search.leave = function (socket) {
 
     // Delete the game
     games.delete(userGame.game);
-    console.log(userGame.game +': Partie supprimee');
+    global.outputs.game(chosenGame, 'Partie supprimee');
 };
 
 
@@ -92,8 +93,7 @@ Search.startGame = function (type, chosenGame, currentUser) {
 
     games.addUser(chosenGame, currentUser);
 
-    console.log(chosenGame +': '+ currentUser.getUsername() +' rejoint');
-    console.log(chosenGame +": "+ games.countUsers(chosenGame) +"/2 joueurs");
+    global.outputs.game(chosenGame, currentUser.getUsername() +' join | '+ games.countUsers(chosenGame) +'/2 players');
 
     // Determine event to send
     if (games.countUsers(chosenGame) === 2) {
@@ -112,6 +112,8 @@ Search.startGame = function (type, chosenGame, currentUser) {
         // Add both players to playersModel
         global.players.add(currentUser.getSocket().id, chosenGame, type);
         global.players.add(adversary.getSocket().id, chosenGame, type);
+
+        global.outputs.game(chosenGame, 'started...');
 
         return;
     }
