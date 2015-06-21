@@ -72,13 +72,15 @@ Search.leave = function (socket) {
         var currentUser = games.getUsers(userGame.game)[user];
         global.players.delete(currentUser.getSocket().id);
 
+        global.outputs.game(userGame.game, currentUser.getUsername() +' disconnected');
+
         if (currentUser.getSocket().id != socket.id)
             currentUser.getSocket().emit('game:disconnect');
     }
 
     // Delete the game
     games.delete(userGame.game);
-    global.outputs.game(chosenGame, 'Partie supprimee');
+    global.outputs.game(userGame.game, 'deleted');
 };
 
 
@@ -93,7 +95,7 @@ Search.startGame = function (type, chosenGame, currentUser) {
 
     games.addUser(chosenGame, currentUser);
 
-    global.outputs.game(chosenGame, currentUser.getUsername() +' join | '+ games.countUsers(chosenGame) +'/2 players');
+    global.outputs.game(chosenGame, '('+ games.countUsers(chosenGame) +'/2) – '+ currentUser.getUsername() +' join');
 
     // Determine event to send
     if (games.countUsers(chosenGame) === 2) {
