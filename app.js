@@ -54,6 +54,11 @@ io.on('connection', function (socket) {
         global.events.search.join(socket, infos);
     });
 
+    // When a player cancel
+    socket.on('search:cancel', function () {
+        global.events.search.leave(socket);
+    });
+
 
     // When a player make a move
     socket.on('game:move', function (move) {
