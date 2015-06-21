@@ -63,14 +63,12 @@ Search.leave = function (socket) {
     // Verify if the game exists
     var currentGame = games.get(userGame.game);
 
-    console.log('Quitte la partie '+ currentGame);
-
     if (!currentGame)
         return;
 
     // Disconnect every players in the game
-    for (var user in currentGame.getUsers()) {
-        var currentUser = currentGame.getUsers()[user];
+    for (var user in games.getUsers(userGame.game)) {
+        var currentUser = games.getUsers(userGame.game)[user];
         global.players.delete(currentUser.getSocket().id);
 
         if (currentUser.getSocket().id != socket.id)
@@ -78,7 +76,8 @@ Search.leave = function (socket) {
     }
 
     // Delete the game
-    games.delete(userGame.id);
+    games.delete(userGame.game);
+    console.log(userGame.game +': Partie supprimee');
 };
 
 
