@@ -56,7 +56,7 @@ io.on('connection', function (socket) {
 
     // When a player cancel
     socket.on('search:cancel', function () {
-        //global.events.search.leave(socket);
+        global.events.search.leave(socket);
     });
 
 
@@ -78,8 +78,7 @@ io.on('connection', function (socket) {
 
     // When a user leave a game
     socket.on('disconnect', function () {
-        //console.log('DISCONNECT EVENT');
-        //global.events.search.leave(socket);
+        global.events.search.leave(socket);
     });
 
 });
