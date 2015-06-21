@@ -79,12 +79,20 @@ Games.prototype.countUsers = function (id) {
  * @return mixed
  */
 Games.prototype.getAvailable = function () {
-    for (id in this.games) {
+    for (var id in this.games) {
         if (this.countUsers(id) < 2)
             return id;
     }
 
     return false;
+};
+
+/**
+ * Delete a game
+ * @param string id
+ */
+Games.prototype.delete = function (id) {
+    delete this.games[id];
 };
 
 /**
