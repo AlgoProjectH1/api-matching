@@ -78,8 +78,8 @@ io.on('connection', function (socket) {
 
     // When a user leave a game
     socket.on('disconnect', function () {
-        console.log('DISCONNECT EVENT');
-        global.events.search.leave(socket);
+        //console.log('DISCONNECT EVENT');
+        //global.events.search.leave(socket);
     });
 
 });
