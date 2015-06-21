@@ -94,7 +94,7 @@ Games.prototype.getAvailable = function () {
  * @return mixed
  */
 Games.prototype.getAdversary = function (game, token) {
-    for (user in this.games[game].users) {
+    for (var user in this.games[game].users) {
         var current = this.games[game].users[user];
 
         if (current.getToken() != token)
