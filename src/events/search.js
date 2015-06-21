@@ -18,7 +18,6 @@ Search.normal = function (socket, infos) {
     }
 
     this.startGame('public', chosenGame, currentUser);
-    console.log(infos.username +' rejoint la partie '+ chosenGame);
 };
 
 
@@ -94,6 +93,9 @@ Search.startGame = function (type, chosenGame, currentUser) {
 
     games.addUser(chosenGame, currentUser);
 
+    console.log(chosenGame +': '+ currentUser.getUsername() +' rejoint');
+    console.log(chosenGame +": "+ games.countUsers(chosenGame) +"/2 joueurs");
+
     // Determine event to send
     if (games.countUsers(chosenGame) === 2) {
         var adversary = games.getAdversary(chosenGame, currentUser.getToken());
@@ -101,7 +103,7 @@ Search.startGame = function (type, chosenGame, currentUser) {
         // Notify both players
         currentUser.getSocket().emit('search:found', JSON.stringify({
             gameIdentifier: chosenGame,
-            adversary: {}
+            adversary: adversary.getAll()
         }));
         adversary.getSocket().emit('search:found', JSON.stringify({
             gameIdentifier: chosenGame,
