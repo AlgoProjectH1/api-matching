@@ -93,7 +93,9 @@ Search.leave = function (socket) {
 Search.startGame = function (type, chosenGame, currentUser) {
     var games = global.clusters.normal.get(type);
 
+    // Add player
     games.addUser(chosenGame, currentUser);
+    global.players.add(currentUser.getSocket().id, chosenGame, type);
 
     global.outputs.game(chosenGame, '('+ games.countUsers(chosenGame) +'/2) – '+ currentUser.getUsername() +' join');
 
@@ -110,10 +112,6 @@ Search.startGame = function (type, chosenGame, currentUser) {
             gameIdentifier: chosenGame,
             adversary: currentUser.getAll()
         }));
-
-        // Add both players to playersModel
-        global.players.add(currentUser.getSocket().id, chosenGame, type);
-        global.players.add(adversary.getSocket().id, chosenGame, type);
 
         global.outputs.game(chosenGame, 'started...');
 
