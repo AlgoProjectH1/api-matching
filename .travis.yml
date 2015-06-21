@@ -2,15 +2,16 @@ notifications:
   slack: projetgo:jo0oI2zSh4vHUoJzBIgbWIAF#builds
 
 language: node_js
+
 node_js:
-  - '0.10'
+- '0.10'
 
 before_install:
-  - npm -g install mocha
+- npm -g install mocha
 
 script:
-  - cd tests/
-  - mocha *
+- cd tests/
+- mocha *
 
 deploy:
   provider: heroku
@@ -18,8 +19,8 @@ deploy:
   on: master
   strategy: git
   api_key:
-    secure: DlKIimeFTLpdCrp9hAtfTSOyPwPf5ogdjkudfEchwaz8mqiYvVR0iiWkxrPwi291pAvCzEMRsxCuJKtbU9vwAu28pLpS0VijIng2CITJ2vqDlxJffOqSjRMjK3xYyl/jDNmYRCU240GVxLIh5U1hA8GnXDH9npVdvyYsu5VgDPY=
+    secure: lM1Ypcu1MGLXYMMyk0GnaOyIqjI68D62/8WK6Jwjz3rPSYe+86Xxz03rYVVP8g1aBqqWJ8i24iB2HG86boY2I5Z4zDPihHX3pmvXrErcXUbKMQN/QgzqcLd+kmNoAmvHVLyY+p5oKUuN++e37ekygG4qNYI5k+ewxZXg3pDAs9g=
 
 branches:
   only:
-    - master
+  - master
