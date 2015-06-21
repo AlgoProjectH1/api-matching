@@ -32,7 +32,7 @@ Players.get = function (socketID) {
  * @param string socketID
  */
 Players.delete = function (socketID) {
-    this.users.slice(socketID);
+    delete this.users[socketID];
 };
 
 
