@@ -56,7 +56,7 @@ io.on('connection', function (socket) {
 
     // When a player cancel
     socket.on('search:cancel', function () {
-        global.events.search.leave(socket);
+        //global.events.search.leave(socket);
     });
 
 
