@@ -23,6 +23,27 @@ Search.normal = function (socket, infos) {
 
 
 /**
+ * When an user create a private game
+ */
+Search.create = function (socket, infos) {
+    infos = JSON.parse(infos);
+
+    var token = infos.token;
+    var games = global.clusters.normal.get('private');
+    var currentUser = new User(token, socket, infos);
+
+    chosenGame = games.add();
+    global.outputs.game(chosenGame, "private created");
+
+    this.startGame('private', chosenGame, currentUser);
+    currentUser.getSocket().emit('search:waiting', JSON.stringify({
+        game: chosenGame,
+        user: currentUser.getAll()
+    }));
+};
+
+
+/**
  * When an user join a private game
  */
 Search.join = function (socket, infos) {

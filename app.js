@@ -55,6 +55,11 @@ io.on('connection', function (socket) {
         global.events.search.join(socket, infos);
     });
 
+    // When a player create a private game
+    socket.on('search:create', function (infos) {
+        global.events.search.create(socket, infos);
+    });
+
     // When a player cancel
     socket.on('search:cancel', function () {
         global.events.search.leave(socket);
