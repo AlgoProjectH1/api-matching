@@ -131,6 +131,40 @@ Games.prototype.getAdversary = function (game, token) {
 };
 
 /**
+ * Get user from token
+ * @param string game
+ * @param string token
+ * @return object
+ */
+Games.prototype.getUserFromToken = function (game, token) {
+    for (var user in this.games[game].users) {
+        var current = this.games[game].users[user];
+
+        if (current.getToken() == token)
+            return current;
+    }
+
+    return false;
+};
+
+/**
+ * Get user from socket
+ * @param string game
+ * @param string id
+ * @return object
+ */
+Games.prototype.getUserFromSocket = function (game, id) {
+    for (var user in this.games[game].users) {
+        var current = this.games[game].users[user];
+
+        if (current.getSocket().id == id)
+            return current;
+    }
+
+    return false;
+};
+
+/**
  * Get user color
  * @param  string token
  * @return string

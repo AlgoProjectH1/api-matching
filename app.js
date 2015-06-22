@@ -35,7 +35,8 @@ global.controllers = {
 /** EVENTS **/
 /************/
 global.events = {
-    search: require('./src/events/search.js')
+    search: require('./src/events/search.js'),
+    game: require('./src/events/game.js')
 };
 
 
@@ -61,8 +62,8 @@ io.on('connection', function (socket) {
 
 
     // When a player make a move
-    socket.on('game:move', function (move) {
-      global.events.game.move(socket, move);
+    socket.on('game:play', function (move) {
+      global.events.game.play(socket, move);
     });
 
     // When a player give up
