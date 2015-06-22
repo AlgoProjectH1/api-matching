@@ -72,8 +72,10 @@ Game.skip = function (socket) {
     var games = null;
     var userGame = global.players.get(socket.id);
 
-    if (!userGame)
+    if (!userGame) {
+        console.log(userGame);
         return;
+    }
 
     // Detect if the user game is private or public
     if (userGame.type === 'private') {
@@ -104,6 +106,13 @@ Game.skip = function (socket) {
 
     gameController.setSkipped(true);
     gameController.switchPlayer();
+
+    var adversary = games.getAdversary(userGame.game, userInfos.getToken());
+
+    // Send event to adversary
+    adversary.getSocket().emit('game:skipped', JSON.stringify({
+        next: gameController.currentPlayer
+    }));
 };
 
 
