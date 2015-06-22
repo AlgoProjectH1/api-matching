@@ -99,7 +99,7 @@ Game.skip = function (socket) {
 
     // If the other player already skipped
     if (gameController.skipped === true) {
-        // Fin du jeu
+        // End of game
         global.outputs.game(userGame.game, "end of game");
         return;
     }
