@@ -41,6 +41,7 @@ Game.play = function (socket, move) {
 
     // Move and switch turn
     gameController.Intersections.set({x: move.x, y: move.y}, userColor);
+    gameController.setSkipped(false);
     gameController.switchPlayer();
 
     // Calcul new goban for each player
@@ -57,25 +58,54 @@ Game.play = function (socket, move) {
 
         currentUser.getSocket().emit('game:refresh', JSON.stringify({
             goban: gameController.Intersections.get(),
-            captures: {},
+            captures: gameController.captures,
             next: gameController.currentPlayer
         }));
     }
 };
 
-/**
- * When a user give up the current game
- */
-Game.giveUp = function (socket) {
-
-};
 
 /**
  * When a user skip his turn
  */
 Game.skip = function (socket) {
+    var games = null;
+    var userGame = global.players.get(socket.id);
 
+    if (!userGame)
+        return;
+
+    // Detect if the user game is private or public
+    if (userGame.type === 'private') {
+        games = global.clusters.normal.get('private');
+    } else {
+        games = global.clusters.normal.get('public');
+    }
+
+    var userInfos = games.getUserFromSocket(userGame.game, socket.id);
+    var gameController = games.getGameController(userGame.game);
+    var userColor = (games.getUserColor(userGame.game, userInfos.getToken()) == 'black') ? 1 : 2;
+
+
+    // Verify if it's the user turn to play
+    if (gameController.currentPlayer != userColor) {
+        global.outputs.game(userGame.game, userInfos.getUsername() +" not your turn");
+        return;
+    }
+
+    global.outputs.game(userGame.game, userInfos.getUsername() +" skipped");
+
+    // If the other player already skipped
+    if (gameController.skipped === true) {
+        // Fin du jeu
+        global.outputs.game(userGame.game, "end of game");
+        return;
+    }
+
+    gameController.setSkipped(true);
+    gameController.switchPlayer();
 };
+
 
 
 module.exports = Game;
