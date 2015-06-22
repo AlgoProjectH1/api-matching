@@ -53,15 +53,14 @@ Search.join = function (socket, infos) {
     var userInfos = infos.user;
     var token = userInfos.token;
     var games = global.clusters.normal.get('private');
-    var chosenGame = games.exists(game);
-    var currentUser = new User(token, socket, userInfos);
 
-    if (!chosenGame) {
-        currentUser.getSocket().emit('search:error', "La partie n'existe pas");
+    if (!games.existsGame(game)) {
+        socket.emit('search:error', "La partie n'existe pas");
         return;
     }
 
-    this.startGame('private', chosenGame, currentUser);
+    var currentUser = new User(token, socket, userInfos);
+    this.startGame('private', game, currentUser);
 };
 
 
