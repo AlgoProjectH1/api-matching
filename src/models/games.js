@@ -31,9 +31,32 @@ Games.prototype.existsGame = function (id) {
  */
 Games.prototype.add = function () {
     var identifier = this.generateID();
-    this.games[identifier] = {users: [], rank: 0};
+    this.games[identifier] = {users: [], rank: 0, infos: {
+        goban: [],
+        captures: 0,
+        turn: 'black'
+    }};
 
     return identifier;
+};
+
+/**
+ * Get the infos from a game
+ * @param string game
+ * @return object
+ */
+Games.prototype.getGameInfos = function (game) {
+    return this.games[game].infos;
+};
+
+/**
+ * Set the game infos
+ * @param string game
+ * @param infoKey
+ * @param infosVal
+ */
+Games.prototype.setGameInfos = function (game, infoKey, infoVal) {
+    this.games[game].infos[infoKey] = infoVal;
 };
 
 /**
