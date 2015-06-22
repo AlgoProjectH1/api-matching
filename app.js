@@ -63,17 +63,12 @@ io.on('connection', function (socket) {
 
     // When a player make a move
     socket.on('game:play', function (move) {
-      global.events.game.play(socket, move);
-    });
-
-    // When a player give up
-    socket.on('game:giveup', function () {
-      global.events.game.giveUp(socket);
+        global.events.game.play(socket, move);
     });
 
     // When a player skip his turn
     socket.on('game:skip', function () {
-      global.events.game.skip(socket);
+        global.events.game.skip(socket);
     });
 
 
