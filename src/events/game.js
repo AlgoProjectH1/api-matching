@@ -31,6 +31,7 @@ Game.play = function (socket, move) {
         return;
     }
 
+    // Verify if the player can move here
     if (gameController.Intersections.get(move.x, move.y) !== 0) {
         global.outputs.game(userGame.game, userInfos.getUsername() +" cant play on ["+ move.x +", "+ move.y +"]");
         return;
@@ -38,11 +39,28 @@ Game.play = function (socket, move) {
 
     global.outputs.game(userGame.game, userInfos.getUsername() +" moves ["+ move.x +", "+ move.y +"]");
 
+    // Move and switch turn
     gameController.Intersections.set({x: move.x, y: move.y}, userColor);
     gameController.switchPlayer();
 
-    // Calcul new goban
-    // Send new goban to each players
+    // Calcul new goban for each player
+    for (var player = 1; player <= 2; player++) {
+        var nodeController = new global.controllers.nodeDetection(player, gameController.Intersections.get());
+        var nodes = nodeController.getNodes();
+
+        gameController.verifyNodesToDie(nodes);
+    }
+
+    // Send new goban to each player
+    for (var user in games.getUsers(userGame.game)) {
+        var currentUser = games.getUsers(userGame.game)[user];
+
+        currentUser.getSocket().emit('game:refresh', JSON.stringify({
+            goban: gameController.Intersections.get(),
+            captures: {},
+            next: gameController.currentPlayer
+        }));
+    }
 };
 
 /**
