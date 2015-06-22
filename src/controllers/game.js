@@ -6,7 +6,8 @@
 var Game = function (gobanSize) {
     this.currentPlayer = 1;
     this.gameState = 1;
-    this.Intersections = new Intersections(gobanSize);
+    this.captures = {1: 0, 2: 0};
+    this.Intersections = new global.controllers.intersections(gobanSize);
 };
 
 
@@ -16,9 +17,6 @@ var Game = function (gobanSize) {
  */
 Game.prototype.switchPlayer = function () {
     this.currentPlayer = (this.currentPlayer == 1) ? 2 : 1;
-
-    $('.infos_container.turn').removeClass('turn');
-    $('.infos_container[data-player="'+ this.currentPlayer +'"]').addClass('turn');
 };
 
 
