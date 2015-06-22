@@ -7,6 +7,7 @@ var Game = function (gobanSize) {
     this.currentPlayer = 1;
     this.gameState = 1;
     this.captures = {1: 0, 2: 0};
+    this.skipped = false;
     this.Intersections = new global.controllers.intersections(gobanSize);
 };
 
@@ -17,6 +18,16 @@ var Game = function (gobanSize) {
  */
 Game.prototype.switchPlayer = function () {
     this.currentPlayer = (this.currentPlayer == 1) ? 2 : 1;
+};
+
+
+/**
+ *
+ * Set skipped
+ * @param boolean state
+ */
+Game.prototype.setSkipped = function (state) {
+    this.skipped = state;
 };
 
 
