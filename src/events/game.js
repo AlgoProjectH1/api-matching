@@ -59,7 +59,8 @@ Game.play = function (socket, move) {
         currentUser.getSocket().emit('game:refresh', JSON.stringify({
             goban: gameController.Intersections.get(),
             captures: gameController.captures,
-            next: gameController.currentPlayer
+            next: gameController.currentPlayer,
+            move: move
         }));
     }
 };
