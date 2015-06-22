@@ -112,5 +112,24 @@ Games.prototype.getAdversary = function (game, token) {
     return false;
 };
 
+/**
+ * Get user color
+ * @param  string token
+ * @return string
+ */
+Games.prototype.getUserColor = function (game, token) {
+    var i = 0;
+
+    for (var user in this.games[game].users) {
+        var current = this.games[game].users[user];
+        i++;
+
+        if (current.getToken() == token)
+            return (i === 1) ? 'black' : 'white';
+    }
+
+    return false;
+}
+
 
 module.exports = Games;

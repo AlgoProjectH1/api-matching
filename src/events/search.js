@@ -102,15 +102,22 @@ Search.startGame = function (type, chosenGame, currentUser) {
     // Determine event to send
     if (games.countUsers(chosenGame) === 2) {
         var adversary = games.getAdversary(chosenGame, currentUser.getToken());
+        var adversaryInfos = adversary.getAll();
+        adversaryInfos.color = games.getUserColor(chosenGame, adversary.getToken());
+        
+        var currentUserInfos = currentUser.getAll();
+        currentUserInfos.color = games.getUserColor(chosenGame, currentUser.getToken());
 
         // Notify both players
         currentUser.getSocket().emit('search:found', JSON.stringify({
             gameIdentifier: chosenGame,
-            adversary: adversary.getAll()
+            me: currentUserInfos,
+            adversary: adversaryInfos
         }));
         adversary.getSocket().emit('search:found', JSON.stringify({
             gameIdentifier: chosenGame,
-            adversary: currentUser.getAll()
+            me: adversaryInfos,
+            adversary: currentUserInfos
         }));
 
         global.outputs.game(chosenGame, 'started...');
