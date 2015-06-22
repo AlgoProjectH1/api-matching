@@ -97,14 +97,14 @@ Search.startGame = function (type, chosenGame, currentUser) {
     games.addUser(chosenGame, currentUser);
     global.players.add(currentUser.getSocket().id, chosenGame, type);
 
-    global.outputs.game(chosenGame, '('+ games.countUsers(chosenGame) +'/2) – '+ currentUser.getUsername() +' join');
+    global.outputs.game(chosenGame, '('+ games.countUsers(chosenGame) +'/2) – '+ currentUser.getUsername() +' joined');
 
     // Determine event to send
     if (games.countUsers(chosenGame) === 2) {
         var adversary = games.getAdversary(chosenGame, currentUser.getToken());
         var adversaryInfos = adversary.getAll();
         adversaryInfos.color = games.getUserColor(chosenGame, adversary.getToken());
-        
+
         var currentUserInfos = currentUser.getAll();
         currentUserInfos.color = games.getUserColor(chosenGame, currentUser.getToken());
 
@@ -120,6 +120,10 @@ Search.startGame = function (type, chosenGame, currentUser) {
             adversary: currentUserInfos
         }));
 
+        // Setup the game controller
+        games.setGameController(chosenGame, new global.controllers.game(13));
+
+        global.outputs.game(chosenGame, 'initialized');
         global.outputs.game(chosenGame, 'started...');
 
         return;
