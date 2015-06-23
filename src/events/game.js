@@ -49,7 +49,7 @@ Game.play = function (socket, move) {
         var nodeController = new global.controllers.nodeDetection(player, gameController.Intersections.get());
         var nodes = nodeController.getNodes();
 
-        gameController.verifyNodesToDie(nodes);
+        gameController.verifyNodesToDie(nodes, player);
     }
 
     // Send new goban to each player

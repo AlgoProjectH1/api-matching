@@ -35,8 +35,11 @@ Game.prototype.setSkipped = function (state) {
  *
  * Verify nodes to die
  * @param object nodes
+ * @param int player
  */
-Game.prototype.verifyNodesToDie = function (nodes) {
+Game.prototype.verifyNodesToDie = function (nodes, player) {
+    player = (player === 1) ? 2 : 1;
+
     for (var node in nodes) {
         var currentNode = nodes[node];
 
@@ -44,6 +47,7 @@ Game.prototype.verifyNodesToDie = function (nodes) {
             for (var stone in currentNode.stones) {
                 var currentStone = currentNode.stones[stone];
                 this.Intersections.set(currentStone, 0);
+                this.captures[player]++;
             }
         }
     }
