@@ -115,6 +115,10 @@ Game.skip = function (socket) {
             }));
         }
 
+        // Delete the game
+        games.delete(userGame.game);
+        global.outputs.game(userGame.game, 'deleted');
+
         return;
     }
 
