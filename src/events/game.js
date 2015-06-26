@@ -101,7 +101,20 @@ Game.skip = function (socket) {
     // If the other player already skipped
     if (gameController.skipped === true) {
         // End of game
+        var scores = gameController.countPoints();
+
+        global.outputs.game(userGame.game, "scores: "+ scores[1] +" – "+ scores[2]);
         global.outputs.game(userGame.game, "end of game");
+
+        // Send end of game
+        for (var user in games.getUsers(userGame.game)) {
+            var currentUser = games.getUsers(userGame.game)[user];
+
+            currentUser.getSocket().emit('game:end', JSON.stringify({
+                scores: scores
+            }));
+        }
+
         return;
     }
 
