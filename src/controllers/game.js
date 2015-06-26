@@ -54,4 +54,34 @@ Game.prototype.verifyNodesToDie = function (nodes, player) {
 };
 
 
+/**
+ *
+ * Count the points of every player
+ * @return object
+ */
+Game.prototype.countPoints = function () {
+    var nodeController = new global.controllers.nodeEmptyDetection(this.Intersections.get());
+    var nodes = nodeController.getNodes();
+
+    for (var node in nodes) {
+        var currentNode = nodes[node];
+        var currentPlayer = 0;
+        var toAdd = 0;
+
+        for (var stone in currentNode.stones) { toAdd++; }
+
+        if (currentNode.neighbors.black === 0 && currentNode.neighbors.white > 1) {
+            this.captures[2] += toAdd;
+        } else if (currentNode.neighbors.white === 0 && currentNode.neighbors.black > 1) {
+            this.captures[1] += toAdd;
+        }
+    }
+
+    // KOMI
+    this.captures[2] += 7.5;
+
+    return this.captures;
+};
+
+
 module.exports = Game;
